@@ -32,12 +32,11 @@ sqlcmd -S tcp:localhost,1433 -U sa -C -b -f 65001 -i database/seed.sql
 ```powershell
 $env:JAVA_HOME = 'C:\Program Files\Java\jdk-21.0.12.1'
 mvn clean package
-powershell -ExecutionPolicy Bypass -File scripts/start-local.ps1
 ```
 
-Mở **http://localhost:8081/24162039_NguyenDucHoc/**. Script chạy một Tomcat riêng trong `target/tomcat`, chỉ lắng nghe localhost, không đổi cấu hình bản Tomcat đã cài. Dừng bằng Ctrl+C. Đổi đường dẫn/cổng bằng `-JavaHome`, `-TomcatHome`, `-Port` nếu cần.
+Copy `target/24162039_NguyenDucHoc.war` vào `TOMCAT_HOME/webapps`, rồi khởi động Tomcat. Với cổng mặc định 8080, mở **http://localhost:8080/24162039_NguyenDucHoc/**.
 
-Cách deploy thông thường: copy `target/24162039_NguyenDucHoc.war` vào `TOMCAT_HOME/webapps`, rồi khởi động Tomcat. Ảnh mặc định lưu tại `CATALINA_BASE/uploads/category`, ngoài WAR; có thể đổi bằng **UPLOAD_DIR** hoặc JVM property **app.upload.dir**. Sao lưu thư mục ảnh khi cần giữ dữ liệu qua `mvn clean` với script local.
+Ảnh mặc định lưu tại `CATALINA_BASE/uploads/category`, ngoài WAR; có thể đổi bằng **UPLOAD_DIR** hoặc JVM property **app.upload.dir**.
 
 ### Import vào Spring Tools/Eclipse
 
@@ -69,7 +68,6 @@ src/main/java/lt_web/
 src/main/resources/database.properties.example
 src/main/webapp/views/     JSP/JSTL
 database/                  Schema và dữ liệu mẫu
-scripts/                   Chạy ứng dụng local
 ```
 
 ## Kiểm tra thủ công
