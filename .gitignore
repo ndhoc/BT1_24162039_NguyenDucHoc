@@ -1,0 +1,14 @@
+/target/
+/tmp/
+/output/
+/.idea/
+/.commandcode/
+*.log
+
+# Local database credentials
+/src/main/resources/database.properties
+
+# Reference documents and generated verification artifacts
+*.pdf
+/TEST_RESULTS.md
+/scripts/smoke_test.py

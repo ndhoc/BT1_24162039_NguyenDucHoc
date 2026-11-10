@@ -1,0 +1,5 @@
+# Copy to database.properties, then fill in your local SQL Server credentials.
+# DB_URL, DB_USER and DB_PASSWORD environment variables override this file.
+db.url=jdbc:sqlserver://localhost:1433;databaseName=MVC_24162039;encrypt=true;trustServerCertificate=true;loginTimeout=5
+db.user=sa
+db.password=CHANGE_ME
