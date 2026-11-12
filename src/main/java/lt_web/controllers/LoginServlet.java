@@ -11,7 +11,7 @@ import lt_web.model.User;
 import lt_web.service.AuthService;
 import lt_web.utils.AuthCookies;
 
-@WebServlet({"/login", "/login/session", "/login/cookie"})
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -23,7 +23,6 @@ public class LoginServlet extends HttpServlet {
         if (request.getSession().getAttribute("account") != null) {
             response.sendRedirect(request.getContextPath() + "/waiting"); return;
         }
-        request.setAttribute("cookieMode", request.getServletPath().equals("/login/cookie"));
         request.getRequestDispatcher("/views/login.jsp").forward(request, response);
     }
 
@@ -38,14 +37,13 @@ public class LoginServlet extends HttpServlet {
         try {
             User user = authService.authenticate(username, password);
             if (user == null) throw new IllegalArgumentException("Tên đăng nhập hoặc mật khẩu không đúng.");
-            boolean remember = request.getServletPath().equals("/login/cookie") || "on".equals(request.getParameter("remember"));
+            boolean remember = "on".equals(request.getParameter("remember"));
             if (remember) AuthCookies.remember(request, response, user);
             else AuthCookies.clear(request, response);
-            AuthCookies.signIn(request, user, remember ? "Cookie" : "Session");
+            AuthCookies.signIn(request, user, remember ? "Session + Cookie ghi nhớ" : "Session");
             response.sendRedirect(request.getContextPath() + "/waiting");
         } catch (IllegalArgumentException e) {
             request.setAttribute("alert", e.getMessage());
-            request.setAttribute("cookieMode", request.getServletPath().equals("/login/cookie"));
             request.getRequestDispatcher("/views/login.jsp").forward(request, response);
         }
     }

@@ -50,6 +50,15 @@ public final class AuthCookies {
         if (value != null && value.matches("[A-Za-z0-9_-]{43}")) USERS.deleteRememberToken(hash(value));
         cookie(req, resp, "", 0);
     }
+    public static void clearSessionCookie(HttpServletRequest req, HttpServletResponse resp) {
+        Cookie cookie = new Cookie("JSESSIONID", "");
+        cookie.setMaxAge(0);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(req.isSecure());
+        cookie.setPath(req.getContextPath().isEmpty() ? "/" : req.getContextPath());
+        cookie.setAttribute("SameSite", "Lax");
+        resp.addCookie(cookie);
+    }
     public static void signIn(HttpServletRequest req, User user, String mode) {
         // Keep only public account data in the session.
         user.setPassword(null);

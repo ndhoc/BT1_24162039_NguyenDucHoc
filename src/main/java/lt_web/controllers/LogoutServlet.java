@@ -14,6 +14,7 @@ public class LogoutServlet extends HttpServlet {
     @Override protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         AuthCookies.clear(req, resp);
         if (req.getSession(false) != null) req.getSession(false).invalidate();
+        AuthCookies.clearSessionCookie(req, resp);
         resp.sendRedirect(req.getContextPath() + "/login?loggedout=1");
     }
 }

@@ -4,11 +4,11 @@
 
 ## Chức năng
 
-- Login với Session: `/login/session`; phiên hết hạn sau 30 phút không hoạt động.
-- Login với Cookie: `/login/cookie`, hoặc chọn ghi nhớ trên form Login. Cookie sống 30 phút, tự phục hồi Session khi quay lại. Cookie chứa token ngẫu nhiên, HttpOnly, SameSite=Lax; SQL chỉ lưu SHA-256 của token. Không lưu mật khẩu/tên người dùng trong Cookie.
+- Login tại `/login`: luôn xác thực và lưu tài khoản trong Session; phiên hết hạn sau 30 phút không hoạt động.
+- Tùy chọn **Ghi nhớ đăng nhập bằng Cookie** trên cùng form Login: Cookie sống 30 phút và tự phục hồi Session khi quay lại. Cookie chứa token ngẫu nhiên, HttpOnly, SameSite=Lax; SQL chỉ lưu SHA-256 của token. Không lưu mật khẩu/tên người dùng trong Cookie.
 - Register: `/register`; kiểm tra dữ liệu, xác nhận mật khẩu và trùng username/email/phone; thành viên mới luôn có roleid=5. Mật khẩu lưu bằng PBKDF2-HMAC-SHA256 có salt.
 - Điều hướng `/waiting`: roleid 1 → `/admin/home`, 2 → `/manager/home`, 5 → `/home`.
-- Logout: hủy Session, thu hồi token và xóa Cookie.
+- Logout: hủy Session, thu hồi token, xóa Cookie ghi nhớ và `JSESSIONID`.
 - Category: danh sách, tìm kiếm, thêm/sửa/xóa, tải và hiển thị ảnh PNG/JPEG; sửa không chọn ảnh sẽ giữ ảnh cũ; thay ảnh/xóa danh mục sẽ dọn ảnh cũ. Xóa có trang xác nhận và POST.
 - Filter xác thực/phân quyền, CSRF cho POST, UTF-8, JSP xuất dữ liệu bằng `c:out`, JDBC dùng PreparedStatement và try-with-resources.
 
@@ -72,7 +72,7 @@ database/                  Schema và dữ liệu mẫu
 
 ## Kiểm tra thủ công
 
-1. Dùng `admin / 123456` để đăng nhập bằng Session và Cookie.
+1. Dùng `admin / 123456` để đăng nhập; thử cả khi bỏ chọn và chọn **Ghi nhớ đăng nhập bằng Cookie**.
 2. Đăng ký tài khoản mới, kiểm tra báo lỗi trùng thông tin và mật khẩu xác nhận.
 3. Đăng nhập bằng tài khoản mới; thành viên không có quyền truy cập trang quản trị.
 4. Dùng admin để thêm, tìm kiếm, sửa và xóa danh mục, thử tải/thay ảnh.
